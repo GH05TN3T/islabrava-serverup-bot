@@ -1,19 +1,19 @@
 # Isla Brava RP · bot de server up
 
-Bot de Discord que publica el aviso de que el servidor está abierto: GIF de server up, mención a @everyone,
-el comando `connect` y un botón **Conectar**.
+Bot de Discord para publicar el aviso de **server up** en tu servidor de Discord.
 
-- **Automático:** el bot mira cada 30 segundos si tu servidor de FiveM responde. Cuando pasa de apagado
-  a encendido, publica el server up. Si reinicia varias veces seguidas, no lo repite durante 10 minutos.
-- **A mano:** el staff escribe `/serverup` en Discord. Opciones: `mensaje` (texto distinto),
-  `mencionar` (quitar el @everyone) y `prueba` (te lo enseña solo a ti, sin publicarlo).
+El staff escribe `/serverup` y el bot publica en el canal de anuncios el aviso con el GIF de server up,
+la mención a @everyone y un botón **Conectar**.
 
-Funciona en cualquier hosting de bots que ejecute Node.js 20.12 o más nuevo. No necesita base de datos.
+Opciones del comando:
+- `mensaje`: escribe un texto distinto al de siempre.
+- `mencionar: False`: lo publica sin mencionar a nadie.
+- `prueba: True`: te lo enseña solo a ti, sin publicarlo.
 
 ## Subirlo a tu hosting
 
-1. Sube este repositorio (o conéctalo desde GitHub en tu hosting).
-2. Comando de inicio: `npm install` y después `npm start` (o `node index.js`).
+1. Conecta este repositorio en tu hosting de bots (rama `main`).
+2. Comandos: `npm install` y después `npm start`. Necesita Node.js 20.12 o más nuevo.
 3. Pon la configuración en las **variables de entorno** del hosting. Si tu hosting no tiene variables,
    copia `.env.example` como `.env` y rellénalo allí (el `.env` no se sube a GitHub).
 
@@ -23,11 +23,10 @@ Funciona en cualquier hosting de bots que ejecute Node.js 20.12 o más nuevo. No
 | `CHANNEL_ID` | ID del canal donde se publica el server up |
 | `GUILD_ID` | ID de tu servidor de Discord |
 | `PING` | `everyone`, `here`, el ID de un rol, o vacío para no mencionar |
-| `STAFF_ROLE_IDS` | roles que pueden usar `/serverup` además de los admins |
-| `CONNECT_URL` | tu enlace `https://cfx.re/join/xxxxxx` |
-| `FIVEM_ENDPOINT` | `http://IP:30120` de tu servidor de FiveM (para el aviso automático y los jugadores) |
-| `MESSAGE`, `TITLE`, `COLOR`, `GIF_URL`, `SERVER_NAME` | el texto y el aspecto del aviso |
-| `CHECK_SECONDS`, `COOLDOWN_MIN` | cada cuánto mira el servidor y cuántos minutos sin repetir |
+| `STAFF_ROLE_IDS` | roles que pueden usar `/serverup` además de los admins (separados por comas) |
+| `MESSAGE` | el texto de siempre |
+| `TITLE`, `SERVER_NAME`, `COLOR`, `GIF_URL` | el título, el nombre, el color de la barra y el GIF |
+| `CONNECT_URL` | opcional: tu enlace `https://cfx.re/join/xxxxxx` (sale el botón **Conectar**) |
 
 Para copiar un ID en Discord: Ajustes → Avanzado → **Modo desarrollador**. Luego, clic derecho en el
 servidor o en el canal → **Copiar ID**.
@@ -43,27 +42,7 @@ Al arrancar, el bot registra `/serverup` solo. En la consola del hosting verás:
 ```
 [serverup] conectado como TuBot#1234
 [serverup] comando /serverup listo en tu servidor
-[serverup] vigilando http://123.45.67.89:30120 cada 30 s
 ```
 
 `/serverup` lo ven los administradores. Para dárselo a otro rol: Ajustes del servidor → Integraciones →
 el bot → `/serverup`, o pon ese rol en `STAFF_ROLE_IDS`.
-
-## Opcional: aviso desde el servidor de FiveM
-
-Si tu hosting te deja abrir un puerto, pon `PORT` y `SERVERUP_KEY` (una clave larga inventada) y usa el
-recurso `islabrava_serverup`. Así el aviso sale justo al arrancar, sin esperar a la vigilancia.
-En el `server.cfg`:
-
-```
-set serverup_url "http://IP-DEL-BOT:PUERTO"
-set serverup_key "TU_SERVERUP_KEY"
-set serverup_delay 45
-ensure islabrava_serverup
-```
-
-## Otra opción: Cloudflare Workers
-
-En la carpeta `cloudflare` está el mismo bot para Cloudflare Workers (gratis, sin hosting). Allí no hay
-vigilancia del servidor: el aviso automático lo manda el recurso `islabrava_serverup`. Los pasos están
-en los comentarios de `cloudflare/wrangler.jsonc`.

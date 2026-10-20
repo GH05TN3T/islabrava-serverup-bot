@@ -2,7 +2,7 @@
   "name": "islabrava-serverup-bot",
   "private": true,
   "version": "1.0.0",
-  "description": "Bot de Discord de Isla Brava RP: publica el server up (automático y con /serverup)",
+  "description": "Bot de Discord de Isla Brava RP: publica el aviso de server up con /serverup",
   "type": "module",
   "main": "index.js",
   "engines": { "node": ">=20.12" },
