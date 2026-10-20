@@ -1,0 +1,16 @@
+{
+  "name": "islabrava-serverup-bot",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261001.0",
+    "typescript": "^5.6.3",
+    "wrangler": "^4.151.0"
+  }
+}
